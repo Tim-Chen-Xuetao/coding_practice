@@ -13,20 +13,26 @@ class Student:
     def show_age(self):
         print('%s: %s' % (self.__name, self.__age))
 
-    def get_name(self):
-        return self.__name
-
     def get_age(self):
         return self.__age
-
-    def set_name(self, name):
-        self.__name = name
 
     def set_age(self, age):
         if isinstance(age, int):
             self.__age = age
         else:
             raise ValueError
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, new_name):
+        self.__name = new_name
+
+    @name.deleter
+    def name(self):
+        print("You tried to remove object name")
 
     @staticmethod
     def is_adult(age):
@@ -35,6 +41,12 @@ class Student:
     @classmethod
     def from_birth_year(cls, name, year):
         return cls(name, date.today().year - year)
+
+    def show_info(self):
+        print(f"name: {self.__name}; age: {self.__age}")
+
+    def demonstrate_skillset(self):
+        raise NotImplementedError
 
 
 class GradePredictor:
@@ -60,11 +72,26 @@ def demo_private():
 
 def demo_set_private():
     obj = Student("Jack", 18)
-    obj.__name = "tom"
-    print("obj.__name:  ", obj.__name)
-    print("obj.get_name():  ", obj.get_name())
+    obj.__age = 28
+    print("obj.__age:  ", obj.__age)
+    print("obj.get_age():  ", obj.get_age())
+
+    obj.show_info()
+
+
+def demo_property():
+    obj = Student("John", 24)
+    print(obj.name)
+
+    obj.name = "Jake"
+    print(obj.name)
+
+    del obj.name
+
+    obj.show_info()
 
 
 if __name__ == "__main__":
     demo_private()
     demo_set_private()
+    demo_property()
